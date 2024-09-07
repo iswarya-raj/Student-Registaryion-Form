@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>printdata</title>
+</head>
+<body>
+    <div>
+        <label for="reg">Enter the register number :</label><br>
+        <input type="number" id="reg" placeholder="eg: 92132223001" required>
+        <button id="rtb">Retrieve</button>
+        <br>
+        <h2>Student Data</h2>
+        <table>
+            <tr>
+                <td>Name : </td>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <td>Roll Number : </td>
+                <td id=""></td>
+            </tr>
+            <tr>
+                <td>Mail ID : </td>
+                <td id="mail"></td>
+            </tr>
+            <tr>
+                <td>Department : </td>
+                <td id="department"></td>
+            </tr>
+            <tr>
+                <td>Year : </td>
+                <td id="year"></td>
+            </tr>
+            <tr>
+                <td>Section : </td>
+                <td id="section"></td>
+            </tr>
+            <tr>
+                <td>CGPA : </td>
+                <td id="gpa"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoU7fBX3fxJ7BiKAtKyAfwogOty7ziyZ0",
+            authDomain: "registration-7ae7d.firebaseapp.com",
+             databaseURL: "https://registration-7ae7d-default-rtdb.firebaseio.com",
+             projectId: "registration-7ae7d",
+            storageBucket: "registration-7ae7d.appspot.com",
+             messagingSenderId: "879289792580",
+            appId: "1:879289792580:web:f991344b7932ea916f6411"
+        };
+        const app = initializeApp(firebaseConfig);
+        import{getDatabase,get,set,ref,child,remove,update} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js" ;
+
+        const db=getDatabase();
+
+            let Name=document.getElementById("name");
+            let Mail=document.getElementById("mail");
+            let Rnum=document.getElementById("reg");
+            let Depart=document.getElementById("department");
+            let yr=document.getElementById("year");
+            let sec=document.getElementById("section");
+            let rln=document.getElementById("roll");
+            let mark=document.getElementById("gpa");
+            let rbtn=document.getElementById("rtb");
+            rbtn.addEventListener('click',ret);
+
+        function ret(){
+                const dataref=ref(db);
+                get(child(dataref,"Studentdata/"+Rnum.value)).then((snapshot)=>{
+                    if(snapshot.exists()){
+                    Name.value=snapshot.val().studentname;
+                    Mail.value=snapshot.val().studentmail;
+                    Rnum.value=snapshot.val().registernumber;
+                    Depart.value=snapshot.val().department;
+                    yr.value=snapshot.val().yearofstudy;
+                    sec.value=snapshot.val().section;
+                    rln.value=snapshot.val().rollnumber;
+                    mark.value=snapshot.val().CGPA;
+
+                    }
+                    else{
+                        alert("Student not exist!")
+                    }
+                })
+            }
+
+        </script>
+
+</body>
+</html>

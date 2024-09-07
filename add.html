@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration Form</title>
+        <link rel="stylesheet" href="reg.css">
+    </head>
+    <body>
+        <div>
+            <h2>Registration Form</h2>
+            <label for="name">Name</label><br>
+            <input type="text"  id="name" placeholder="eg: Arun S" ><br>
+            <label for="mail">Email</label><br>
+            <input type="text"  id="mail" placeholder="eg: example@xmail.com" ><br>
+            <label for="reg">Register number</label><br>
+            <input type="number" name="registernumber" id="reg" placeholder="eg: 92132223001" required><br>
+            <label for="department">Department</label><br>
+            <select  id="department">
+                <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Electrical and Electrnics Engineering">Electrical and Electrnics Engineering</option>
+                <option value="Electrical and Communication Engineering">Electrical and Communication Engineering</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+            </select>
+            <label for="year">Year</label><br>
+            <select  id="year">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <label for="section">Section</label><br>
+            <input type="text" id="section" placeholder="eg: A" ><br>
+            <label for="roll">Roll number</label><br>
+            <input type="text" id="roll" placeholder="eg: 22IT001" ><br>
+            <label for="gpa">Current CGPA</label><br>
+            <input type="number" id="gpa" placeholder="eg: 8.5"><br>
+            <button id="adb">Add</button>
+            <p>Already registered?</p><br>
+            <a href="print.html">Click here to print data</a><br>
+            <a href="">click here to update data</a><br>
+            <a href="">click here to delete data</a><br>
+        </div>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+            const firebaseConfig = {
+                apiKey: "AIzaSyDoU7fBX3fxJ7BiKAtKyAfwogOty7ziyZ0",
+                authDomain: "registration-7ae7d.firebaseapp.com",
+                 databaseURL: "https://registration-7ae7d-default-rtdb.firebaseio.com",
+                 projectId: "registration-7ae7d",
+                storageBucket: "registration-7ae7d.appspot.com",
+                 messagingSenderId: "879289792580",
+                appId: "1:879289792580:web:f991344b7932ea916f6411"
+            };
+            const app = initializeApp(firebaseConfig);
+            import{getDatabase,get,set,ref,child,remove,update} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js" ;
+
+            let Name=document.getElementById("name");
+            let Mail=document.getElementById("mail");
+            let Rnum=document.getElementById("reg");
+            let Depart=document.getElementById("department");
+            let yr=document.getElementById("year");
+            let sec=document.getElementById("section");
+            let rln=document.getElementById("roll");
+            let mark=document.getElementById("gpa");
+
+            let abtn=document.getElementById("adb");
+
+            const db=getDatabase();
+
+function add(){
+    set(ref(db,"Studentdata/"+Rnum.value),{
+        studentname: Name.value,
+        studentmail:Mail.value,
+        registernumber:Number(Rnum.value),
+        department:Depart.value,
+        yearofstudy:Number(yr.value),
+        section:sec.value,
+        rollnumber:rln.value,
+        CGPA:Number(mark.value)
+     }).then(()=>{
+        alert("Data added Successfully!")
+     }).catch((error)=>{
+        alert("Some error occured...Unsuccessful!")
+        console.log(error)
+     })
+}
+
+abtn.addEventListener('click',add);
+
+</script>
+</body>
+</html>
